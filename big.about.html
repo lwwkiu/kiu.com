@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        body,
+        html {
+            height: 100%;
+            font-family: 'Libre Baskerville', serif;
+            text-align: center;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://asiamountains.net/assets/cache_image/assets/lib/resized/308/1600x1066_0x0_d0b.jpg') no-repeat center center/cover;
+            z-index: -1;
+        }
+        
+        .overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: -1;
+        }
+        
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+        
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        header .logo img {
+            height: 55px;
+            width: 55px;
+        }
+        
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 24px;
+        }
+        
+        header nav a:hover {
+            color: #32b544;
+            text-decoration: underline;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* Выпадающее меню */
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border-radius: 5px;
+        }
+        /* Кнопки внутри выпадающего меню */
+        
+        .dropdown-menu .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px 35px;
+            text-decoration: none;
+            background-color: #1e6c29;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        /* Эффект наведения на кнопки */
+        
+        .dropdown-menu .btn:hover {
+            background-color: #32b544;
+        }
+        /* Показываем меню при наведении на ссылку */
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: rgb(79, 73, 56);
+            color: white;
+            min-height: 70vh;
+            width: 70%;
+            max-width: 1500px;
+            margin: 0 auto;
+            border-radius: 40px;
+            z-index: 2;
+            margin-top: 10%;
+        }
+        
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+            margin-right: 10%;
+            gap: 40px;
+            text-align: left;
+            font-size: 20px;
+        }
+        
+        .circle-container img {
+            border-radius: 20%;
+            width: 300px;
+            height: 300px;
+            margin-left: 10%;
+            box-shadow: 40px 20px 40px rgba(235, 216, 163, 0.635);
+        }
+        
+        .circle-container text {
+            font-size: 24px;
+            color: #eaeaea;
+            margin: 80px auto;
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .rect-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -20px;
+            gap: 30px;
+        }
+        
+        .rect-container .row {
+            display: flex;
+            gap: 200px;
+        }
+        
+        .rectangle {
+            background-color: rgba(225, 206, 151, 0.406);
+            padding: 15px;
+            text-align: left;
+            color: rgb(255, 255, 255);
+            border-radius: 10px;
+            width: 300px;
+            height: 600px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+        }
+        
+        .rectangle h3 {
+            margin-bottom: 10px;
+            color: #054c0e;
+        }
+        
+        .rectangle img {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            object-fit: fill;
+            /* Игнорировать пропорции и заполнить контейнер */
+        }
+        
+        footer {
+            background-color: #1e6c29;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .bottom-section {
+            background-color: rgb(79, 73, 56);
+            padding: 30px;
+            text-align: center;
+            width: 70%;
+            margin-top: 50px;
+            height: 600px;
+            margin-left: 15%;
+            border-radius: 40px;
+            margin-bottom: 5%;
+        }
+        
+        .bottom-section h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #1b8b2a;
+        }
+        
+        .bottom-section p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: rgb(255, 255, 255);
+            text-align: left;
+            margin-top: 5%;
+        }
+        
+        .bottom-section button {
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .bottom-section button:hover {
+            background-color: #32b544;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <header>
+        <div class="logo">
+            <img src="C:\Users\Lenovo\OneDrive\Resimler\free-png.ru-352.png" alt="Логотип">
+            <p>About us</p>
+        </div>
+        <nav>
+            <a href="big pr.html">Home</a>
+            <a href="big.about.html">About us</a>
+            <div class="dropdown">
+                <a href="big.dost.html" class="dropdown-link">Tours</a>
+                <div class="dropdown-menu">
+                    <a href="big.dost.html" class="btn">Tour 1</a>
+                    <a href="big past 2.html" class="btn">Tour 2</a>
+                </div>
+            </div>
+            <a href="big.cont.html">Contacts</a>
+        </nav>
+    </header>
+
+    <div class="content-container">
+
+        <div class="circle-container">
+            <img src="c:\Users\Lenovo\Downloads\Изображение WhatsApp 2024-12-11 в 00.10.44_32283243.jpg" alt="Круглое фото">
+
+            <div class="circle-container text">
+                <p>KiU Generation is a leading travel company specializing in organizing unique and unforgettable journeys across Kyrgyzstan. Our goal is to showcase the true beauty and richness of this amazing country, where centuries-old traditions, majestic
+                    mountains, and breathtaking natural landscapes converge.
+            </div>
+        </div>
+
+        <div class="rect-container">
+            <div class="row">
+                <div class="rectangle">
+                    <img src="c:\Users\Lenovo\OneDrive\Resimler\Снимки экрана\Снимок экрана 2024-12-14 203049.png" alt="фото 1">
+                    <h3>About our company</h3>
+                    <p>The company has earned recognition as one of the best tour operators in the region thanks to its high level of service and environmentally conscious approach to tourism. We take pride in participating in international initiatives for
+                        preserving natural heritage and supporting local communities, as well as organizing journeys for renowned explorers and photographers.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="rectangle">
+                    <img src="https://34travel.me/media/upload/images/2019/april/volonterstvo-v-amerike/7.JPG" alt="Фото 2">
+                    <h3>About Our Employees</h3>
+                    <p>Our team of professionals works with a love for Kyrgyzstan and attention to every traveler. We strive to ensure that trips with "KiU" inspire you to return, discovering new facets of this amazing country.</p>
+                </div>
+                <div class="rectangle">
+                    <img src="https://balthazar.club/uploads/posts/2023-01/1674297434_balthazar-club-p-puteshestviya-estetika-krasivo-66.jpg" alt="Фото 3">
+                    <h3>We specialize in</h3>
+                    <p>The company's specialization covers a wide range of tourism types. These include eco-tours to the natural gems of Kyrgyzstan, trekking and mountaineering in the Tien Shan and Pamir mountains, ethnological tours immersing travelers
+                        in the life of nomadic peoples, as well as cultural routes that reveal the rich history of the region. Additionally, "KiU" offers active leisure activities such as horseback riding, rafting, and bike expeditions.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-section">
+        <h1>Discover the Chui region with us!</h1>
+        <p>Our team will help you create unforgettable memories. We will choose a tour based on your preferences and carefully plan your time. Leave a request, and we will get in touch with you!</p>
+        <p>Phone: Our managers are ready to answer your questions by phone, help you choose a tour, and provide up-to-date information about travel options.</p>
+        <p>Email: Write to us, and we will promptly respond with a personalized solution for your vacation.</p>
+        <p>Company Office: We are always happy to welcome you in person to discuss the details of your trip and tell you more about our unique routes.</p>
+        <button onclick="window.location.href='big.cont.html'">Contact Us</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Kyrgyzstan Guide. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

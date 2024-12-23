@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        body,
+        html {
+            height: 100%;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        .background {
+            position: relative;
+            background-size: cover;
+            height: 100%;
+            background: url('https://asiamountains.net/assets/cache_image/assets/lib/resized/308/1600x1066_0x0_d0b.jpg') no-repeat center center/cover;
+        }
+        
+        .overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+        
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 3;
+        }
+        
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        header .logo img {
+            height: 55px;
+            width: 55px;
+        }
+        
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 24px;
+        }
+        
+        header nav a:hover {
+            color: #32b544;
+            text-decoration: underline;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* Выпадающее меню */
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border-radius: 5px;
+        }
+        /* Кнопки внутри выпадающего меню */
+        
+        .dropdown-menu .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px 35px;
+            text-decoration: none;
+            background-color: #1e6c29;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        /* Эффект наведения на кнопки */
+        
+        .dropdown-menu .btn:hover {
+            background-color: #32b544;
+        }
+        /* Показываем меню при наведении на ссылку */
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        main {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding-top: 100px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-items: center;
+            gap: 50px;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
+        
+        .card-front {
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-back {
+            background-color: #1e6c29;
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        
+        footer {
+            background-color: #1e6c29;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .card {
+            perspective: 1000px;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin-bottom: 30px;
+            /* Добавляем отступ для кнопки */
+        }
+        
+        .info-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #0b6016;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .info-button:hover {
+            background-color: #28a639;
+        }
+        
+        .rect-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background-color: #0d871d;
+            margin-top: 5%;
+            left: 100%;
+        }
+        
+        .city-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            color: rgb(21, 78, 25);
+            text-align: left;
+            width: 65%;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        
+        .city-info .text {
+            flex: 1;
+            margin-right: 20px;
+            /* Добавим отступ справа, чтобы текст не сливался с картинкой */
+        }
+        
+        .city-info .image .rect-container img {
+            position: absolute;
+            top: 60px;
+            right: 80px;
+            width: 700px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        /* Новый блок с текстом и изображениями */
+        
+        .additional-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgb(12, 62, 8);
+        }
+        
+        .text-block {
+            width: 20%;
+        }
+        
+        .text-block h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .text-block p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        
+        .image-gallery {
+            display: flex;
+            gap: 20px;
+            width: 70%;
+        }
+        
+        .image-item {
+            text-align: center;
+            width: 30%;
+        }
+        
+        .image-item img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <div class="overlay"></div>
+        <header>
+            <div class="logo">
+                <img src="C:\Users\Lenovo\OneDrive\Resimler\free-png.ru-352.png" alt="Логотип">
+                <p>Tour</p>
+            </div>
+            <nav>
+                <a href="big pr.html">Home</a>
+                <a href="big.about.html">About us</a>
+                <div class="dropdown">
+                    <a href="big.dost.html" class="dropdown-link">Tours</a>
+                    <div class="dropdown-menu">
+                        <a href="big.dost.html" class="btn">Tour 1</a>
+                        <a href="big past 2.html" class="btn">Tour 2</a>
+                    </div>
+                </div>
+                <a href="big.cont.html">Contacts</a>
+            </nav>
+        </header>
+        <main>
+            <h1>Places for the tour</h1>
+            <div class="grid">
+                <!-- Карточки -->
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/103437/09/1034370908_0:0:2000:1583_1920x0_80_0_0_537a3d37ae7a8af194829e9187559e05.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>The Burana Tower was built in the 10th-11th centuries and is included in the UNESCO World Heritage List. It is located 80 kilometers from Bishkek. The tower is a narrowing trunk with decorative bands. On the southern side,
+                                there is a doorway leading to a staircase that takes you to the observation deck. Near the tower, there is a stone garden with ancient statues and examples of rock art.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+                        <button class="info-button">Buy a trip for 2000 KGS.</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/102749/78/1027497816_0:0:5241:3494_1920x0_80_0_0_a344d285c440c232236b7169f20b2dbf.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>Ala-Archa National Park, which translates from Kyrgyz as "variegated juniper," is home to this plant species found almost everywhere in the park. The complex, established in 1976, was created to preserve endangered animal species
+                                and rare plants. It is located 41 kilometers from Bishkek. The park is home to 161 plant species, with the most famous being the red and white tulips, primroses, and forget-me-nots. The park is also inhabited by the swallowtail
+                                butterfly, golden eagle, snow vulture, Turkmenian lynx, and snow leopard.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+                        <button class="info-button">Buy a trip for 5000 KGS.</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/103437/13/1034371355_0:0:1034:788_1280x0_80_0_0_9ec1eeff842b387b29e945d4c753c1e9.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>The Kegeti Gorge, rich in forests, is located 75 kilometers from Bishkek. Tourists flock here to see the 20-meter waterfall with cool, clear water and to taste ayran and kumis. Visitors can stay in guest yurts, and for an additional
+                                fee, horse riding is offered. The area is home to predatory birds—falcons, eagles, and goshawks. It is especially beautiful in the summer, as the barberry begins to bloom and the rose hips and mountain ash flower. Throughout
+                                the gorge, river tributaries flow.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+                        <button class="info-button">Buy a trip for 3000 KGS.</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/104498/12/1044981204_0:0:2404:1350_1280x0_80_0_0_249a0056136956ae6fd1b2029f75496c.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>Lake Köl-Tor mesmerizes with its emerald-colored water. The lake is surrounded by mountains, spruce forests with shrubs, and medicinal herbs. However, the water is cold, so swimming is not possible, but visitors can enjoy boat
+                                rides. The lake is located in the gorge of the same name, at an altitude of 2,725 meters above sea level, and is 90 kilometers from Bishkek. An interesting fact: nearby is a peak over 4,200 meters high called Sugar Head.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+                        <button class="info-button">Buy a trip for 6000 KGS.</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/102080/79/1020807971_0:0:5616:3744_1280x0_80_0_0_b1bd7f44c078a6c38f85431ed262f4ce.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>The Konorchok Canyons are breathtaking in scale and are located 125 kilometers from Bishkek. Here, you can find the remnants of the ancient Segizhan-Shokny volcano, which is estimated to be 2.5 to 3 million years old. The area
+                                of the canyons is 200 kilometers, and the only way to reach them is through a labyrinth of red rocks along the bed of a dry river. In winter, there is no snow, and in summer, the temperature never drops below 40 degrees.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+                        <button class="info-button">Buy a trip for 4000 KGS.</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front" style="background-image: url('https://sputnik.kg/img/103437/09/1034370919_0:0:1203:803_1280x0_80_0_0_7fc1bec9a0d328bb1f135a5d2dc8e2c1.jpg.webp');"></div>
+                        <div class="card-back">
+                            <p>The Belogorsky Gorge, due to a massive landslide, has acquired an unusual relief. The water doesn’t reach the ground in time and disperses, turning into a water cloud. During the two-hour walk to the waterfall, you can see
+                                the peak of Black Spire. It got its name because of its dark color, which remains unchanged regardless of the weather. The gorge is home to wild shrubs, a huge variety of flowers, and many springs and streams.</p>
+                        </div>
+                    </div>
+                    <a href="big.cont.html">
+
+                        <button class="info-button">Buy a trip for 3000 KGS</button>
+                    </a>
+                </div>
+
+        </main>
+        </div>
+        <div class="city-info">
+            <div class="text">
+                <h2>The adventure begins</h2>
+                <p>A journey is about enjoying art every moment and seeing the beauty in simple things. Set off on a journey to enrich your soul and gain new experiences!
+                </p>
+            </div>
+            <div class="image">
+                <div class="rect-container">
+                    <img src="https://img.freepik.com/premium-photo/family-travel-holiday-trip-motorhome_1315585-953.jpg" alt="Фото">
+                </div>
+            </div>
+        </div>
+        <div class="additional-info">
+            <div class="text-block">
+                <h2>KiU Generation</h2>
+                <p>Our company offers a wide range of services that will leave you satisfied. If you're interested in any tour, register your trip on our website!</p>
+            </div>
+
+            <div class="image-gallery">
+                <div class="image-item">
+                    <img src="c:\Users\Lenovo\OneDrive\Resimler\Снимки экрана\Снимок экрана 2024-12-14 235422.png" alt="Фото 1">
+
+                </div>
+                <div class="image-item">
+                    <img src="c:\Users\Lenovo\OneDrive\Resimler\Снимки экрана\Снимок экрана 2024-12-14 235636.png" alt="Фото 2">
+
+                </div>
+                <div class="image-item">
+                    <img src="c:\Users\Lenovo\OneDrive\Resimler\Снимки экрана\Снимок экрана 2024-12-15 000151.png" alt="Фото 3">
+
+                </div>
+            </div>
+        </div>
+
+
+        <footer>
+            <p>&copy; 2024 Kyrgyzstan Guide. All rights reserved.</p>
+        </footer>
+</body>
+
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ala-Archa Tour</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        body,
+        html {
+            height: 100%;
+            font-family: 'Libre Baskerville', serif;
+            background-color: #213324b8;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5%;
+        }
+        
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+        
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        header .logo img {
+            height: 55px;
+            width: 55px;
+        }
+        
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 24px;
+        }
+        
+        header nav a:hover {
+            color: #32b544;
+            text-decoration: underline;
+        }
+        /* Контейнер для выпадающего меню */
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* Выпадающее меню */
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border-radius: 5px;
+        }
+        /* Кнопки внутри выпадающего меню */
+        
+        .dropdown-menu .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px 35px;
+            text-decoration: none;
+            background-color: #1e6c29;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        /* Эффект наведения на кнопки */
+        
+        .dropdown-menu .btn:hover {
+            background-color: #32b544;
+        }
+        /* Показываем меню при наведении на ссылку */
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .content {
+            width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: black;
+            border-radius: 10px;
+        }
+        
+        .tour-info {
+            text-align: center;
+        }
+        
+        .tour-info h2 {
+            font-size: 24px;
+        }
+        
+        .tour-info p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        
+        .price {
+            font-size: 20px;
+            color: #32b544;
+        }
+        /* Стили для карусели с изображениями */
+        
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .carousel img {
+            width: 80%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .carousel button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .carousel button.prev {
+            left: 10px;
+        }
+        
+        .carousel button.next {
+            right: 10px;
+        }
+        
+        .form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .form label,
+        .form input {
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
+        }
+        
+        .form input[type="number"],
+        .form input[type="date"] {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .form button {
+            padding: 10px 20px;
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .form button:hover {
+            background-color: #32b544;
+        }
+        /* Стили для Google карты */
+        
+        .google-map {
+            margin-top: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .video-button:hover {
+            background-color: #32b544;
+        }
+        /* Стили для модального окна */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        
+        .modal-content iframe {
+            width: 100%;
+            height: 450px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+        /* Стиль для кнопки назад */
+        
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .back-button:hover {
+            background-color: #32b544;
+        }
+        /* Стили для рейтинга и количества посетителей */
+        
+        .rating {
+            margin-top: 10px;
+            text-align: center;
+            color: #050505;
+            /* Цвет звёзд */
+            font-size: 18px;
+        }
+        
+        .rating .stars {
+            font-size: 22px;
+            color: #ffd700;
+            /* Цвет для звёзд */
+        }
+        /* Стиль для кнопки на изображении */
+        
+        .video-button-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            display: none;
+            /* Скроем кнопку по умолчанию */
+        }
+        /* Показываем кнопку при наведении */
+        
+        .carousel:hover .video-button-overlay {
+            opacity: 1;
+            display: block;
+            /* Показываем кнопку при наведении */
+        }
+        /* Для предотвращения перекрытия стрелок */
+        
+        .carousel {
+            position: relative;
+        }
+        /* Адаптация стилей, чтобы изображение оставалось интерактивным */
+        
+        .carousel img {
+            position: relative;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo img">
+            <img src="c:\Users\Lenovo\OneDrive\Resimler\free-png.ru-352.png" alt="Логотип">
+            <p>ala-archa</p>
+        </div>
+        <nav>
+            <a href="big pr.html">Home</a>
+            <a href="big.about.html">About us</a>
+            <div class="dropdown">
+                <a href="big.dost.html" class="dropdown-link">Tours</a>
+                <div class="dropdown-menu">
+                    <a href="big.dost.html" class="btn">Tour 1</a>
+                    <a href="big past 2.html" class="btn">Tour 2</a>
+                </div>
+            </div>
+            <a href="big.cont.html">Contacts</a>
+        </nav>
+    </header>
+
+    <div class="content">
+        <!-- Информация о туре -->
+        <div class="tour-info">
+            <h2>Ala-Archa National Park</h2>
+            <p>A beautiful national park with scenic mountains located 40 km from Bishkek.</p>
+            <p class="price">3000 soms</p>
+        </div>
+
+        <!-- Карусель изображений -->
+        <!-- Карусель изображений -->
+        <div class="carousel">
+            <img src="https://bulak.kg/wp-content/uploads/2023/01/Ala-Archa-2-1024x682-1.jpg" alt="Ala-Archa Image 1" id="carousel-image">
+            <button class="prev" onclick="changeImage(-1)">&#10094;</button>
+            <button class="next" onclick="changeImage(1)">&#10095;</button>
+            <!-- Кнопка YouTube -->
+            <button class="video-button-overlay" onclick="openModal()">▶ Watch Video</button>
+            <!-- Оценка и количество посетителей -->
+            <div class="rating">
+                <div class="stars">
+                    ★★★★★
+                </div>
+                <p>Based on 4.8/5 average rating</p>
+                <p>Approximately 12,500 visitors</p>
+            </div>
+        </div>
+
+        <!-- Google Карта -->
+        <div class="google-map" id="map"></div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93934.47754124422!2d74.42523007805806!3d42.63056785208652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3899312f04e599b1%3A0x6543355aee5f0991!2z0JDQu9CwLdCw0YDRh9Cw!5e0!3m2!1sru!2skg!4v1734619863817!5m2!1sru!2skg"
+            width="100%" height="450" style="border:0;  align-items: center;
+            justify-content: center;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!-- Форма выбора даты и количества людей -->
+        <div class="form">
+            <h3>Select your travel date</h3>
+            <label for="travel-date">Choose a date:</label>
+            <input type="date" id="travel-date">
+            <label for="number-of-people">Number of people:</label>
+            <input type="number" id="number-of-people" value="1" min="1">
+            <button onclick="calculatePrice()">Calculate price</button>
+            <p id="total-price"></p>
+        </div>
+
+        <!-- Встраиваемая Google форма -->
+        <div class="google-form">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScs85osl6Mwq1_JA0o-gxIh_UWr-wjtmmXOsKKd53Ww-Pgr1w/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
+        </div>
+
+        <!-- Кнопка назад -->
+        <div>
+            <a href="big past 2.html">
+                <button class="back-button">Back</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Модальное окно с видео -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <!-- Видео iframe -->
+            <iframe id="videoFrame" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Массив изображений
+        const images = [
+            "https://cdn.tripster.ru/thumbs2/44e9060c-c7a5-11ec-802e-56794c7fe101.800x600.jpeg",
+            "https://www.travelkyrgyzstan.kg/wp-content/uploads/2021/07/ala_archa_kyrgyzstan.jpg",
+            "https://www.tourstouzbekistan.com/uploads/tours/Ushele_Ala-Archa_5-min.jpg"
+        ];
+
+        let currentImageIndex = 0;
+
+        // Функция для изменения изображений в карусели
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+            document.getElementById("carousel-image").src = images[currentImageIndex];
+        }
+
+        // Функция для расчета стоимости
+        function calculatePrice() {
+            const pricePerPerson = 3000;
+            const numberOfPeople = document.getElementById("number-of-people").value;
+            const totalPrice = pricePerPerson * numberOfPeople;
+            document.getElementById("total-price").innerText = `Total price: ${totalPrice} soms`;
+        }
+
+        // Инициализация Google карты
+        function initMap() {
+            const location = {
+                lat: 42.6688,
+                lng: 74.3160
+            }; // Координаты Ala-Archa
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: location,
+                zoom: 10,
+            });
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+        }
+
+        // Функция для открытия модального окна с видео
+        function openModal() {
+            const videoUrl = "https://www.youtube.com/embed/OiVVKITz7oA?si=Fb4RXu2K1eA3LAUM"; // Замените на нужное видео
+            document.getElementById("videoFrame").src = videoUrl; // Подставляем ссылку в iframe
+            document.getElementById("videoModal").style.display = "block"; // Показываем модальное окно
+        }
+
+        function closeModal() {
+            document.getElementById("videoModal").style.display = "none"; // Скрываем модальное окно
+            document.getElementById("videoFrame").src = ""; // Очищаем видео после закрытия
+        }
+    </script>
+
+    <!-- Вставляем Google карты API -->
+
+
+</body>
+
+</html>

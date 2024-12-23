@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        body,
+        html {
+            height: 2000px;
+            font-family: 'Libre Baskerville', serif;
+            display: flex;
+            background-color: #213324b8;
+            width: 100%;
+        }
+        
+        .background {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 3;
+        }
+        
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        header .logo img {
+            height: 55px;
+            width: 55px;
+        }
+        
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 24px;
+        }
+        
+        header nav a:hover {
+            color: #32b544;
+            text-decoration: underline;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border-radius: 5px;
+        }
+        
+        .dropdown-menu .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px 35px;
+            text-decoration: none;
+            background-color: #1e6c29;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .dropdown-menu .btn:hover {
+            background-color: #32b544;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .container {
+            width: 80%;
+            max-width: 1800px;
+            margin: 0 auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            margin-top: 5%;
+            min-height: 500px;
+            /* Ensures constant height of the container */
+        }
+        
+        .filters {
+            width: 300px;
+            max-width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+            overflow-y: auto;
+            flex-shrink: 0;
+            /* Prevents the filter width from shrinking */
+        }
+        
+        .filter input[type="range"] {
+            width: 100%;
+        }
+        
+        .filter button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .filter button:hover {
+            background-color: #32b544;
+        }
+        
+        .cards {
+            width: calc(100% - 320px);
+            /* Accounts for the filter width */
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            overflow-y: auto;
+            min-height: 500px;
+            /* Ensures constant height of the cards container */
+        }
+        
+        .filters h2 {
+            margin-bottom: 15px;
+        }
+        
+        .filter {
+            margin-bottom: 30px;
+        }
+        
+        .filter label {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .card {
+            width: 300px;
+            /* Reduced card size */
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            height: 400px;
+            /* Fixed height for cards */
+        }
+        
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            /* Smooth transition for scaling */
+        }
+        
+        .card img:hover {
+            transform: scale(1.1);
+            /* Slightly enlarge the image */
+        }
+        
+        .card h3 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        
+        .card p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .card .price {
+            font-weight: bold;
+            color: #1e6c29;
+        }
+        
+        .card button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #1e6c29;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .card button:hover {
+            background-color: #32b544;
+        }
+        
+        .toggle-filters {
+            background: none;
+            border: none;
+            font-size: 36px;
+            color: #1e6c29;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin-right: 72%;
+            margin-top: 6%;
+        }
+        
+        .toggle-filters:hover {
+            color: #32b544;
+        }
+        
+        .filters.collapsed {
+            height: 50px;
+            overflow: hidden;
+        }
+        
+        .filters.collapsed .filter {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <header>
+            <div class="logo img">
+                <img src="c:\Users\Lenovo\OneDrive\Resimler\free-png.ru-352.png" alt="Logo">
+                <p>Welcome!</p>
+            </div>
+            <nav>
+                <a href="big pr.html">Home</a>
+                <a href="big.about.html">About us</a>
+                <div class="dropdown">
+                    <a href="big.dost.html" class="dropdown-link">Tours</a>
+                    <div class="dropdown-menu">
+                        <a href="big.dost.html" class="btn">Tour 1</a>
+                        <a href="big past 2.html" class="btn">Tour 2</a>
+                    </div>
+                </div>
+                <a href="big.cont.html">Contacts</a>
+            </nav>
+        </header>
+
+        <div class="container">
+            <div class="filters" id="filters">
+                <button class="clear-filters" id="clear-filters">Clear selection</button>
+                <button class="toggle-filters" id="toggle-filters">⬇</button>
+                <div class="filter">
+                    <h2>Popular places in Chuy Region</h2>
+                    <label><input type="checkbox" value="Ala-Archa"> Ala-Archa</label>
+                    <label><input type="checkbox" value="Chon-Kemin"> Chon-Kemin</label>
+                    <label><input type="checkbox" value="Sary-Chelek"> Sary-Chelek</label>
+                    <label><input type="checkbox" value="Tash-Rabat"> Tash-Rabat</label>
+                    <label><input type="checkbox" value="Sulyukta"> Sulyukta</label>
+                    <label><input type="checkbox" value="Besh-Kungey"> Besh-Kungey</label>
+                    <label><input type="checkbox" value="Issyk-Kul (northern shore)"> Issyk-Kul (northern shore)</label>
+                    <label><input type="checkbox" value="Petroglyphs Suuk-Tash"> Petroglyphs Suuk-Tash</label>
+                </div>
+                <div class="filter">
+                    <h2>Filter by price</h2>
+                    <input type="range" id="price-range" min="1000" max="10000" step="500" value="10000">
+                    <label>Up to: <span id="price-label">10000</span> soms</label>
+                </div>
+
+                <div class="filter">
+                    <h2>Trip type</h2>
+                    <label><input type="radio" name="trip-type" value="Individual"> Individual</label>
+                    <label><input type="radio" name="trip-type" value="Group"> Group</label>
+                </div>
+            </div>
+
+            <div class="cards" id="cards">
+                <!-- Cards will be generated dynamically -->
+            </div>
+        </div>
+        <script>
+            const tours = [{
+                name: "Ala-Archa",
+                price: 3000,
+                type: "Individual",
+                description: "A beautiful national park with scenic mountains located 40 km from Bishkek.",
+                image: "https://bulak.kg/wp-content/uploads/2023/01/Ala-Archa-2-1024x682-1.jpg"
+            }, {
+                name: "Chon-Kemin",
+                price: 5000,
+                type: "Group",
+                description: "A mountain valley with unique nature, forests, and rivers, popular for active recreation.",
+                image: "https://too.kg/wp-content/uploads/img_0997_0-1024x683.jpg"
+            }, {
+                name: "Sary-Chelek",
+                price: 7000,
+                type: "Individual",
+                description: "A lake in Chuy region surrounded by mountains, ideal for fishing and camping.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0kX_C225D-Fba3sBYTgdSVEAyEIvouLHlg&s"
+            }, {
+                name: "Tash-Rabat",
+                price: 9000,
+                type: "Group",
+                description: "An ancient caravanserai on the Silk Road located in the southeastern part of the region.",
+                image: "https://asiamountains.net/assets/cache_image/assets/lib/resized/396/1600x1066_0x0_d0b.jpg"
+            }, {
+                name: "Sulyukta",
+                price: 2500,
+                type: "Individual",
+                description: "A mountainous area with natural springs, perfect for tourism and adventures.",
+                image: "https://photocdn.photogoroda.com/source2/cn2303/r2340/c2360/39744897.jpg?v=20171213112136"
+            }, {
+                name: "Besh-Kungey",
+                price: 4000,
+                type: "Group",
+                description: "A mountain range with hiking opportunities and enjoying the nature of the Chuy valley.",
+                image: "https://cachizer2.2gis.com/reviews-photos/4df9295d-abf6-4254-ad01-618e5a9b9181.jpg"
+            }, {
+                name: "Issyk-Kul",
+                price: 8000,
+                type: "Individual",
+                description: "Issyk-Kul lake with its northern shore, part of which is located in Chuy region, a popular place for recreation.",
+                image: "https://findgid.ru/storage/tours/2953/main-photo/EpBXiYXjnUpiuvLKIPrW.jpg"
+            }, {
+                name: "Petroglyphs-Suuk-Tash",
+                price: 10000,
+                type: "Group",
+                description: "Ancient rock carvings located in the Chuy valley, a historical landmark of the region.",
+                image: "https://cdn.prod.website-files.com/62bf56f27527403aeae62c5e/63182941638905bd519828b5_DZalllalabad_SaimaluuTash%20(19).jpg"
+            }];
+
+            const cardsContainer = document.getElementById("cards");
+            const priceRange = document.getElementById("price-range");
+            const priceLabel = document.getElementById("price-label");
+            const clearFilters = document.getElementById("clear-filters");
+            const tripTypeInputs = document.querySelectorAll("input[name='trip-type']");
+            const tourCheckboxes = document.querySelectorAll(".filters input[type='checkbox']");
+            const toggleFiltersButton = document.getElementById("toggle-filters");
+            const filtersContainer = document.getElementById("filters");
+
+            toggleFiltersButton.addEventListener("click", () => {
+                filtersContainer.classList.toggle("collapsed");
+                toggleFiltersButton.textContent = filtersContainer.classList.contains("collapsed") ? "⬆" : "⬇";
+            });
+
+            function renderCards() {
+                cardsContainer.innerHTML = "";
+                const maxPrice = Number(priceRange.value);
+                const selectedTypeInput = [...tripTypeInputs].find(input => input.checked);
+                const selectedType = selectedTypeInput ? selectedTypeInput.value : null;
+                const selectedTours = [...tourCheckboxes].filter(input => input.checked).map(input => input.value);
+
+                const filteredTours = tours.filter(tour => {
+                    return (
+                        tour.price <= maxPrice &&
+                        (!selectedType || tour.type === selectedType) &&
+                        (selectedTours.length === 0 || selectedTours.includes(tour.name))
+                    );
+                });
+
+                filteredTours.forEach(tour => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.innerHTML = `
+                    <img src="${tour.image}" alt="${tour.name}">
+                    <h3>${tour.name}</h3>
+                    <p>${tour.description}</p>
+                    <p class="price">${tour.price} soms</p>
+                    <button onclick="window.location.href='${tour.name.toLowerCase().replace(/ /g, '-')}.html'">Learn more</button>
+                `;
+                    cardsContainer.appendChild(card);
+                });
+            }
+
+            priceRange.addEventListener("input", () => {
+                priceLabel.textContent = priceRange.value;
+                renderCards();
+            });
+
+            clearFilters.addEventListener("click", () => {
+                priceRange.value = priceRange.max;
+                priceLabel.textContent = priceRange.max;
+                tripTypeInputs.forEach(input => input.checked = false);
+                tourCheckboxes.forEach(input => input.checked = false);
+                renderCards();
+            });
+            [...tripTypeInputs, ...tourCheckboxes].forEach(input => {
+                input.addEventListener("change", renderCards);
+            });
+
+
+
+            renderCards(); // Initial render
+        </script>
+
+</body>
+
+</html>
